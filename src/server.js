@@ -47,7 +47,7 @@ app.post("/signup", async (req, res) => {
   });
   
   // Login Route - Add this route
-  app.post("/login", async (req, res) => {
+  app.post("/api/login", async (req, res) => {
 	const { username, password } = req.body;
   
 	if (!username || !password) {
