@@ -3,6 +3,7 @@ const { User } = require("./models/UserModel");
 const { WorkOrder } = require("./models/WorkOrderModel");
 const { generateJWT, validateUserAuth } = require("./functions/jwtFunctions");
 const cors = require("cors");
+const bcrypt = require('bcryptjs');
 const app = express();
 
 app.use(express.json());
@@ -16,7 +17,7 @@ let corsOptions = {
 	optionsSuccessStatus: 200
   };
   app.use(cors(corsOptions));
-  
+
 // Test endpoint
 app.get("/", (req, res) => {
   res.json({ message: "Hello, world!" });
@@ -24,32 +25,132 @@ app.get("/", (req, res) => {
 
 // Authentication Routes
 app.post("/signup", async (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res.status(400).json({
-      message: "Incorrect or missing sign-up credentials provided.",
-    });
-  }
-
-  let newUser = await User.create({ username, password });
-  let newJwt = generateJWT(newUser.id, newUser.username);
-
-  res.json({
-    jwt: newJwt,
-    user: {
-      id: newUser.id,
-      username: newUser.username,
-    },
+	const { username, password } = req.body;
+  
+	if (!username || !password) {
+	  return res.status(400).json({
+		message: "Incorrect or missing sign-up credentials provided.",
+	  });
+	}
+  
+	const hashedPassword = await bcrypt.hash(password, 10);  // Hash password before saving
+	let newUser = await User.create({ username, password: hashedPassword });
+	let newJwt = generateJWT(newUser.id, newUser.username);
+  
+	res.json({
+	  jwt: newJwt,
+	  user: {
+		id: newUser.id,
+		username: newUser.username,
+	  },
+	});
   });
-});
-
-app.get("/protectedRoute", validateUserAuth, (req, res) => {
-  res.json({
-    message: "You can see protected content because you're signed in!",
+  
+  // Login Route - Add this route
+  app.post("/login", async (req, res) => {
+	const { username, password } = req.body;
+  
+	if (!username || !password) {
+	  return res.status(400).json({
+		message: "Missing login credentials.",
+	  });
+	}
+  
+	// Find user by username
+	const user = await User.findOne({ username });
+  
+	if (!user) {
+	  return res.status(400).json({
+		message: "Invalid username or password.",
+	  });
+	}
+  
+	// Compare provided password with stored hashed password
+	const isPasswordValid = await bcrypt.compare(password, user.password);
+  
+	if (!isPasswordValid) {
+	  return res.status(400).json({
+		message: "Invalid username or password.",
+	  });
+	}
+  
+	// Generate JWT token
+	const token = generateJWT(user.id, user.username);
+	res.json({
+	  token,
+	  user: {
+		id: user.id,
+		username: user.username,
+	  },
+	});
   });
-});
+  
 
+
+// // Authentication Routes
+// app.post("/signup", async (req, res) => {
+//   const { username, password } = req.body;
+
+//   if (!username || !password) {
+//     return res.status(400).json({
+//       message: "Incorrect or missing sign-up credentials provided.",
+//     });
+//   }
+
+//   const hashedPassword = await bcrypt.hash(password, 10);  // Hash password before saving
+//   let newUser = await User.create({ username, password: hashedPassword });
+//   let newJwt = generateJWT(newUser.id, newUser.username);
+
+//   res.json({
+//     jwt: newJwt,
+//     user: {
+//       id: newUser.id,
+//       username: newUser.username,
+//     },
+//   });
+// });
+
+// // Login Route - Add this route
+// app.post("/login", async (req, res) => {
+//   const { username, password } = req.body;
+
+//   if (!username || !password) {
+//     return res.status(400).json({
+//       message: "Missing login credentials.",
+//     });
+//   }
+
+//   // Find user by username
+//   const user = await User.findOne({ username });
+
+//   if (!user) {
+//     return res.status(400).json({
+//       message: "Invalid username or password.",
+//     });
+//   }
+
+//   // Compare provided password with stored hashed password
+//   const isPasswordValid = await bcrypt.compare(password, user.password);
+
+//   if (!isPasswordValid) {
+//     return res.status(400).json({
+//       message: "Invalid username or password.",
+//     });
+//   }
+
+//   // Generate JWT token
+//   const token = generateJWT(user.id, user.username);
+//   res.json({
+//     token,
+//     user: {
+//       id: user.id,
+//       username: user.username,
+//     },
+//   });
+// });
+
+
+  
 // Work Order Routes
 app.get("/api/workorders", validateUserAuth, async (req, res) => {
   const workOrders = await WorkOrder.find();
