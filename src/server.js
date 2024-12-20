@@ -50,6 +50,7 @@ app.post("/signup", async (req, res) => {
   
 // Login Route
 app.post("/api/login", async (req, res) => {
+	console.log("Login attempt with username:", req.body.username);
     const { username, password } = req.body;
 
     if (!username || !password) {
