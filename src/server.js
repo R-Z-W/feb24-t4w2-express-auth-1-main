@@ -19,6 +19,11 @@ let corsOptions = {
   app.use(cors(corsOptions));
 
 
+// Health Check Route
+app.get("/api/health", (req, res) => {
+	res.status(200).json({ message: "Backend is working!" });
+});
+  
 
 // Authentication Routes
 app.post("/signup", async (req, res) => {
