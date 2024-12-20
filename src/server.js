@@ -50,39 +50,28 @@ app.post("/signup", async (req, res) => {
   
 // Login Route
 app.post("/api/login", async (req, res) => {
-  const { username, password } = req.body;
+    const { username, password } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({
-      message: "Missing login credentials.",
-    });
-  }
+    if (!username || !password) {
+        return res.status(400).json({
+            message: "Missing login credentials.",
+        });
+    }
 
-  const user = await User.findOne({ username });
+    // Find user by username
+    let user = await User.findOne({ username });
+    if (!user) {
+        return res.status(401).json({ message: "User not found." });
+    }
 
-  if (!user) {
-    return res.status(400).json({
-      message: "Invalid username or password.",
-    });
-  }
+    // Check password
+    if (user.password !== password) {
+        return res.status(401).json({ message: "Invalid password." });
+    }
 
-  const isPasswordValid = await bcrypt.compare(password, user.password);
-
-  if (!isPasswordValid) {
-    return res.status(400).json({
-      message: "Invalid username or password.",
-    });
-  }
-
-  const token = generateJWT(user.id, user.username);
-
-  res.json({
-    token,
-    user: {
-      id: user.id,
-      username: user.username,
-    },
-  });
+    // Generate JWT
+    const token = generateJWT(user._id, user.username);
+    res.json({ token });
 });
 
   
