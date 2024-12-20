@@ -1,12 +1,10 @@
-// seed.js
 const mongoose = require("mongoose");
-const { User } = require("./models/UserModel");
-const { WorkOrder } = require("./models/WorkOrderModel"); // Assuming you have a WorkOrder model
 const dotenv = require("dotenv");
+dotenv.config();  // Make sure this is called before using environment variables
 
-dotenv.config();
+const { User } = require("./models/UserModel");
+const { WorkOrder } = require("./models/WorkOrderModel");
 
-// Connect to MongoDB Atlas
 mongoose.connect(process.env.DATABASE_URL)
   .then(() => {
     console.log("Connected to MongoDB Atlas");
@@ -14,6 +12,10 @@ mongoose.connect(process.env.DATABASE_URL)
     // Sample data to seed
     const sampleData = async () => {
       try {
+        // Clear existing data (optional, if you want to start fresh)
+        await User.deleteMany({});
+        await WorkOrder.deleteMany({});
+
         // Create sample users
         const user1 = await User.create({
           username: "john_doe",
@@ -24,19 +26,29 @@ mongoose.connect(process.env.DATABASE_URL)
           password: "password123",
         });
 
-        // Create sample work orders
+        console.log("Users created:", user1.username, user2.username);
+
+        // Create sample work orders with required fields
         const workOrder1 = await WorkOrder.create({
           status: "To Do",
           employee: user1._id,
           description: "Fix car engine",
           dueDate: new Date("2024-12-25"),
+          carLicensePlate: "ABC1234",  // Add the car license plate
+          carModel: "Toyota Corolla",   // Add the car model
+          carId: "1",                   // Add the car ID
         });
         const workOrder2 = await WorkOrder.create({
           status: "In Progress",
           employee: user2._id,
           description: "Detail car interior",
           dueDate: new Date("2024-12-22"),
+          carLicensePlate: "XYZ5678",  // Add the car license plate
+          carModel: "Honda Civic",      // Add the car model
+          carId: "2",                   // Add the car ID
         });
+
+        console.log("Work Orders created:", workOrder1.description, workOrder2.description);
 
         console.log("Data seeded successfully!");
       } catch (err) {

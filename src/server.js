@@ -8,16 +8,11 @@ const app = express();
 app.use(express.json());
 
 let corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://deployedreactapp.com",
-  ],
-  optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
-
+	origin: ["http://localhost:3000", "http://127.0.0.1:5173", "https://yourfrontenddomain.com"],
+	optionsSuccessStatus: 200
+  };
+  app.use(cors(corsOptions));
+  
 // Test endpoint
 app.get("/", (req, res) => {
   res.json({ message: "Hello, world!" });
