@@ -30,22 +30,40 @@ mongoose.connect(process.env.DATABASE_URL)
 
         // Create work orders
         const workOrder1 = await WorkOrder.create({
-          status: "To Do",
-          employee: user1._id,
-          description: "Fix car engine",
-          dueDate: new Date("2024-12-25"),
-          carLicensePlate: "ABC1234", 
-          carModel: "Toyota Corolla",
-          carId: "1",
+            status: "To Do",
+            description: "Fix car engine",
+            dueDate: new Date("2024-12-25"),
+            carLicensePlate: "ABC1234", 
+            carModel: "Toyota Corolla",
+            carId: "1",
+            tasks: [
+            {
+                title: "Check engine light",
+                employeeName: user1.username,
+            },
+            {
+                title: "Replace spark plugs",
+                employeeName: user1.username,
+            }
+            ],
         });
         const workOrder2 = await WorkOrder.create({
-          status: "In Progress",
-          employee: user2._id,
-          description: "Detail car interior",
-          dueDate: new Date("2024-12-22"),
-          carLicensePlate: "XYZ5678", 
-          carModel: "Honda Civic",   
-          carId: "2",            
+            status: "In Progress",
+            description: "Detail car interior",
+            dueDate: new Date("2024-12-22"),
+            carLicensePlate: "XYZ5678", 
+            carModel: "Honda Civic",   
+            carId: "2",
+            tasks: [
+            {
+                title: "Vacuum seats",
+                employeeName: user2.username,
+            },
+            {
+                title: "Clean dashboard",
+                employeeName: user2.username,
+            },
+            ],
         });
 
         console.log("Work Orders created:", workOrder1.description, workOrder2.description);
