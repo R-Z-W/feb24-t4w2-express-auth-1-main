@@ -44,10 +44,10 @@ app.post("/signup", async (req, res) => {
 		username: newUser.username,
 	  },
 	});
-  });
+});
   
-  // Login Route - Add this route
-  app.post("/api/login", async (req, res) => {
+// Login Route - Add this route
+app.post("/api/login", async (req, res) => {
 	const { username, password } = req.body;
   
 	if (!username || !password) {
@@ -83,7 +83,7 @@ app.post("/signup", async (req, res) => {
 		username: user.username,
 	  },
 	});
-  });
+});
   
 
 
