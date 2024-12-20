@@ -9,14 +9,14 @@ mongoose.connect(process.env.DATABASE_URL)
   .then(() => {
     console.log("Connected to MongoDB Atlas");
 
-    // Sample data to seed
+    // Data to seed
     const sampleData = async () => {
       try {
-        // Clear existing data (optional, if you want to start fresh)
+        // Delete existing data
         await User.deleteMany({});
         await WorkOrder.deleteMany({});
 
-        // Create sample users
+        // Create users
         const user1 = await User.create({
           username: "john_doe",
           password: "password123",
@@ -28,24 +28,24 @@ mongoose.connect(process.env.DATABASE_URL)
 
         console.log("Users created:", user1.username, user2.username);
 
-        // Create sample work orders with required fields
+        // Create work orders
         const workOrder1 = await WorkOrder.create({
           status: "To Do",
           employee: user1._id,
           description: "Fix car engine",
           dueDate: new Date("2024-12-25"),
-          carLicensePlate: "ABC1234",  // Add the car license plate
-          carModel: "Toyota Corolla",   // Add the car model
-          carId: "1",                   // Add the car ID
+          carLicensePlate: "ABC1234", 
+          carModel: "Toyota Corolla",
+          carId: "1",
         });
         const workOrder2 = await WorkOrder.create({
           status: "In Progress",
           employee: user2._id,
           description: "Detail car interior",
           dueDate: new Date("2024-12-22"),
-          carLicensePlate: "XYZ5678",  // Add the car license plate
-          carModel: "Honda Civic",      // Add the car model
-          carId: "2",                   // Add the car ID
+          carLicensePlate: "XYZ5678", 
+          carModel: "Honda Civic",   
+          carId: "2",            
         });
 
         console.log("Work Orders created:", workOrder1.description, workOrder2.description);

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
+// Test connection to MongoDB Atlas
 const testConnection = async () => {
   try {
     await mongoose.connect(process.env.DATABASE_URL);
