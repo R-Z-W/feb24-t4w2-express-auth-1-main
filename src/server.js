@@ -18,10 +18,7 @@ let corsOptions = {
   };
   app.use(cors(corsOptions));
 
-// Test endpoint
-app.get("/", (req, res) => {
-  res.json({ message: "Hello, world!" });
-});
+
 
 // Authentication Routes
 app.post("/signup", async (req, res) => {
@@ -46,44 +43,43 @@ app.post("/signup", async (req, res) => {
 	});
 });
   
-// Login Route - Add this route
+// Login Route
 app.post("/api/login", async (req, res) => {
-	const { username, password } = req.body;
-  
-	if (!username || !password) {
-	  return res.status(400).json({
-		message: "Missing login credentials.",
-	  });
-	}
-  
-	// Find user by username
-	const user = await User.findOne({ username });
-  
-	if (!user) {
-	  return res.status(400).json({
-		message: "Invalid username or password.",
-	  });
-	}
-  
-	// Compare provided password with stored hashed password
-	const isPasswordValid = await bcrypt.compare(password, user.password);
-  
-	if (!isPasswordValid) {
-	  return res.status(400).json({
-		message: "Invalid username or password.",
-	  });
-	}
-  
-	// Generate JWT token
-	const token = generateJWT(user.id, user.username);
-	res.json({
-	  token,
-	  user: {
-		id: user.id,
-		username: user.username,
-	  },
-	});
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({
+      message: "Missing login credentials.",
+    });
+  }
+
+  const user = await User.findOne({ username });
+
+  if (!user) {
+    return res.status(400).json({
+      message: "Invalid username or password.",
+    });
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+
+  if (!isPasswordValid) {
+    return res.status(400).json({
+      message: "Invalid username or password.",
+    });
+  }
+
+  const token = generateJWT(user.id, user.username);
+
+  res.json({
+    token,
+    user: {
+      id: user.id,
+      username: user.username,
+    },
+  });
 });
+
   
 
 
