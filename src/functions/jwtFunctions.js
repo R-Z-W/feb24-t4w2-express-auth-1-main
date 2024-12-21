@@ -43,6 +43,7 @@ async function validateUserAuth(request, response, next){
 	}
 }
 
+
 module.exports = {
 	generateJWT,
 	decodeJWT,

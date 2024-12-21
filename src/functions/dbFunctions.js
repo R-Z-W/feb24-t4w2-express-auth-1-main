@@ -6,6 +6,7 @@ async function dbConnect(){
 	console.log("Connected to database at " + databaseURL);
 }
 
+
 module.exports = {
 	dbConnect
 }
