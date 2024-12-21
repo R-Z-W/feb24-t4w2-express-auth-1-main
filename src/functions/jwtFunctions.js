@@ -2,8 +2,7 @@ const jwt = require("jsonwebtoken");
 
 let jwtSecretKey = process.env.JWT_SECRET_KEY;
 
-// async function generateJWT(userDetailsObj)
-function generateJWT(userId, username, roles = null){
+function generateJWT(userId, username, roles = null) {
 	return jwt.sign(
 		{
 			userId: userId,
@@ -17,35 +16,33 @@ function generateJWT(userId, username, roles = null){
 	);
 }
 
-function decodeJWT(tokenToDecode){
-	
+function decodeJWT(tokenToDecode) {
 	return jwt.verify(tokenToDecode, jwtSecretKey);
 }
 
-async function validateUserAuth(request, response, next){
-	let providedToken = request.headers.jwt;
-	console.log(providedToken);
+async function validateUserAuth(request, response, next) {
+	const token = request.headers['authorization']?.split(' ')[1]; // Extract the token from Authorization header
 
-	if (!providedToken){
+	if (!token) {
 		return response.status(403).json({
-			message:"Sign in to view this content!"
+			message: "Sign in to view this content!"
 		});
 	}
 
-	let decodedData = decodeJWT(providedToken);
-	console.log(decodedData);
-	if (decodedData.userId){
-		next();
-	} else {
+	try {
+		const decodedData = decodeJWT(token);
+		if (decodedData.userId) {
+			next();
+		} else {
+			return response.status(403).json({
+				message: "Sign in to view this content!"
+			});
+		}
+	} catch (err) {
 		return response.status(403).json({
-			message:"Sign in to view this content!"
+			message: "Invalid token."
 		});
 	}
 }
 
-
-module.exports = {
-	generateJWT,
-	decodeJWT,
-	validateUserAuth
-}
+module.exports = { generateJWT, decodeJWT, validateUserAuth };

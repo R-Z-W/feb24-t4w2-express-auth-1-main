@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require('bcryptjs');
 const dotenv = require("dotenv");
 dotenv.config();  // Make sure this is called before using environment variables
 
@@ -16,14 +17,15 @@ mongoose.connect(process.env.DATABASE_URL)
         await User.deleteMany({});
         await WorkOrder.deleteMany({});
 
-        // Create users
+        // Create users with hashed passwords
+        const hashedPassword = await bcrypt.hash("password123", 10);
         const user1 = await User.create({
           username: "john_doe",
-          password: "password123",
+          password: hashedPassword,
         });
         const user2 = await User.create({
           username: "jane_doe",
-          password: "password123",
+          password: hashedPassword,
         });
 
         console.log("Users created:", user1.username, user2.username);
@@ -78,7 +80,6 @@ mongoose.connect(process.env.DATABASE_URL)
 
     sampleData();
   })
-  
   .catch((error) => {
     console.error("Error connecting to MongoDB Atlas:", error);
   });
