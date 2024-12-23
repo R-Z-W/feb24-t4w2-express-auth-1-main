@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const TaskSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  status: { type: String, required: true, default: "Pending" },
   description: { type: String },
 });
 
@@ -15,7 +14,7 @@ const WorkOrderSchema = new mongoose.Schema({
   tasks: [TaskSchema],
   laborHours: { type: Number },
   costOfService: { type: Number },
-  workOrderStatus: { type: String, default: "To Do" },
+  status: { type: String, default: "Pending" },
   serviceNotes: { type: String },
   warrantyOnWork: { type: String },
 });
