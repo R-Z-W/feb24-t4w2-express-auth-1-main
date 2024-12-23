@@ -21,7 +21,7 @@ function decodeJWT(tokenToDecode) {
 }
 
 async function validateUserAuth(request, response, next) {
-	const token = request.headers['authorization']?.split(' ')[1]; // Extract the token from Authorization header
+	const token = request.headers['authorization']?.split(' ')[1]; // Extract the token from header
 
 	if (!token) {
 		return response.status(403).json({
@@ -31,6 +31,7 @@ async function validateUserAuth(request, response, next) {
 
 	try {
 		const decodedData = decodeJWT(token);
+		
 		if (decodedData.userId) {
 			next();
 		} else {

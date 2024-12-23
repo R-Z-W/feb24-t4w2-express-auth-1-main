@@ -18,10 +18,11 @@ let corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Health Check Route
+// Server Health Check Route
 app.get("/api/health", (req, res) => {
 	res.status(200).json({ message: "Backend is working!" });
 });
+
 
 // Authentication Routes
 app.post("/signup", async (req, res) => {
@@ -33,7 +34,7 @@ app.post("/signup", async (req, res) => {
 	  });
 	}
   
-	// Password strength validation (example: at least 8 characters, 1 number)
+	// Password strength (8 characters, 1 number)
 	const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 	if (!passwordRegex.test(password)) {
 		return res.status(400).json({
@@ -80,7 +81,6 @@ app.post("/api/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid password." });
   }
   
-
   // Generate JWT
   const token = generateJWT(user._id, user.username);
   res.json({ token });

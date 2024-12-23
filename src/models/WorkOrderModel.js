@@ -2,24 +2,25 @@ const mongoose = require("mongoose");
 
 const TaskSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  employeeName: { type: String, required: true },
+  status: { type: String, required: true, default: "Pending" },
+  description: { type: String },
 });
 
 const WorkOrderSchema = new mongoose.Schema({
-  carId: { type: String, required: true, unique: true },
-  carModel: { type: String, required: true },
-  carLicensePlate: { type: String, required: true },
-  description: { type: String, required: true },
-  dueDate: { type: Date, required: true },
-  status: { type: String, required: true, default: "To Do" },
+  carId: { type: String, required: true },
+  serviceType: { type: String, required: true },
+  startDate: { type: Date, required: true },
+  completionDate: { type: Date },
+  technicianAssigned: { type: String },
   tasks: [TaskSchema],
+  laborHours: { type: Number },
+  costOfService: { type: Number },
+  workOrderStatus: { type: String, default: "To Do" },
+  serviceNotes: { type: String },
+  warrantyOnWork: { type: String },
 });
 
 const WorkOrder = mongoose.model("WorkOrder", WorkOrderSchema);
-
-
-module.exports = {
-  WorkOrder,
-};
+module.exports = { WorkOrder};
 
 
