@@ -13,12 +13,14 @@ mongoose.connect(process.env.DATABASE_URL)
     // Data to seed
     const sampleData = async () => {
       try {
-        // Delete existing data
+        // Delete existing data (optional - only if you want to clear the collections before seeding)
         await User.deleteMany({});
         await WorkOrder.deleteMany({});
 
-        // Create users with hashed passwords
+        // Hash password before saving users
         const hashedPassword = await bcrypt.hash("password123", 10);
+
+        // Create users with hashed passwords
         const user1 = await User.create({
           username: "john_doe",
           password: hashedPassword,
@@ -32,40 +34,41 @@ mongoose.connect(process.env.DATABASE_URL)
 
         // Create work orders
         const workOrder1 = await WorkOrder.create({
-            status: "To Do",
-            description: "Fix car engine",
-            dueDate: new Date("2024-12-25"),
-            carLicensePlate: "ABC1234", 
-            carModel: "Toyota Corolla",
-            carId: "1",
-            tasks: [
+          status: "To Do",
+          description: "Fix car engine",
+          dueDate: new Date("2024-12-25"),
+          carLicensePlate: "ABC1234", 
+          carModel: "Toyota Corolla",
+          carId: "1",
+          tasks: [
             {
-                title: "Check engine light",
-                employeeName: user1.username,
+              title: "Check engine light",
+              employeeName: user1.username,
             },
             {
-                title: "Replace spark plugs",
-                employeeName: user1.username,
+              title: "Replace spark plugs",
+              employeeName: user1.username,
             }
-            ],
+          ],
         });
+        
         const workOrder2 = await WorkOrder.create({
-            status: "In Progress",
-            description: "Detail car interior",
-            dueDate: new Date("2024-12-22"),
-            carLicensePlate: "XYZ5678", 
-            carModel: "Honda Civic",   
-            carId: "2",
-            tasks: [
+          status: "In Progress",
+          description: "Detail car interior",
+          dueDate: new Date("2024-12-22"),
+          carLicensePlate: "XYZ5678", 
+          carModel: "Honda Civic",   
+          carId: "2",
+          tasks: [
             {
-                title: "Vacuum seats",
-                employeeName: user2.username,
+              title: "Vacuum seats",
+              employeeName: user2.username,
             },
             {
-                title: "Clean dashboard",
-                employeeName: user2.username,
+              title: "Clean dashboard",
+              employeeName: user2.username,
             },
-            ],
+          ],
         });
 
         console.log("Work Orders created:", workOrder1.description, workOrder2.description);
