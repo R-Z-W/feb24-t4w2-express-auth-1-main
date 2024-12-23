@@ -7,7 +7,7 @@ const TaskSchema = new mongoose.Schema({
 });
 
 const WorkOrderSchema = new mongoose.Schema({
-  carId: { type: String, required: true },
+  carId: { type: String },
   serviceType: { type: String, required: true },
   startDate: { type: Date, required: true },
   completionDate: { type: Date },
