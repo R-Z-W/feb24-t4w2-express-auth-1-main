@@ -22,7 +22,7 @@ const CarSchema = new mongoose.Schema({
   soldDate: { type: Date },
 });
 
-// Add auto-increment for carId
+// Auto-increment carId
 CarSchema.plugin(AutoIncrement, { inc_field: "carId" });
 
 const Car = mongoose.model("Car", CarSchema);

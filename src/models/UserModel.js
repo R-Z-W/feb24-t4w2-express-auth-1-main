@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const { v4: uuidv4 } = require('uuid');
 
 const UserSchema = new mongoose.Schema({
-  userId: { 
+  userId: { // UUID support for user ID security
     type: String, 
     default: () => uuidv4(),
     unique: true,

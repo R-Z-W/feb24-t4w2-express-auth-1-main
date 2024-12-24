@@ -8,6 +8,7 @@ const TaskSchema = new mongoose.Schema({
 
 const WorkOrderSchema = new mongoose.Schema({
   carId: { type: String },
+  userId: { type: String, required: true }, // Add userId field
   serviceType: { type: String, required: true },
   startDate: { type: Date, required: true },
   completionDate: { type: Date },
@@ -20,7 +21,6 @@ const WorkOrderSchema = new mongoose.Schema({
   warrantyOnWork: { type: String },
 });
 
-// AutoIncrement workOrderId
 WorkOrderSchema.plugin(AutoIncrement, { inc_field: "workOrderId" });
 
 const WorkOrder = mongoose.model("WorkOrder", WorkOrderSchema);

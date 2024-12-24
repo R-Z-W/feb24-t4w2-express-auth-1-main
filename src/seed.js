@@ -138,6 +138,7 @@ mongoose
       const workOrders = await WorkOrder.create([
         {
           carId: car1._id,
+          userId: users[0]._id, // Add userId from created user
           serviceType: "Oil Change",
           startDate: new Date("2024-01-05"),
           completionDate: new Date("2024-01-06"),
@@ -152,6 +153,7 @@ mongoose
         },
         {
           carId: car2._id,
+          userId: users[1]._id,
           serviceType: "Brake Inspection",
           startDate: new Date("2024-01-07"),
           completionDate: null,
@@ -166,6 +168,7 @@ mongoose
         },
         {
           carId: car3._id,
+          userId: users[2]._id,
           serviceType: "Tire Replacement",
           startDate: new Date("2024-01-10"),
           completionDate: new Date("2024-01-11"),
@@ -180,6 +183,7 @@ mongoose
         },
         {
           carId: car1._id,
+          userId: users[0]._id,
           serviceType: "Battery Replacement",
           startDate: new Date("2024-01-12"),
           completionDate: null,
@@ -194,6 +198,7 @@ mongoose
         },
         {
           carId: car2._id,
+          userId: users[1]._id,
           serviceType: "Transmission Check",
           startDate: new Date("2024-01-15"),
           completionDate: null,
@@ -208,6 +213,7 @@ mongoose
         },
         {
           carId: car3._id,
+          userId: users[2]._id,
           serviceType: "AC Repair",
           startDate: new Date("2024-01-20"),
           completionDate: new Date("2024-01-21"),
@@ -222,6 +228,7 @@ mongoose
         },
         {
           carId: car1._id,
+          userId: users[0]._id,
           serviceType: "Coolant Flush",
           startDate: new Date("2024-01-22"),
           completionDate: null,
@@ -236,6 +243,7 @@ mongoose
         },
         {
           carId: car2._id,
+          userId: users[1]._id,
           serviceType: "Wheel Alignment",
           startDate: new Date("2024-01-25"),
           completionDate: null,
@@ -250,6 +258,7 @@ mongoose
         },
         {
           carId: car3._id,
+          userId: users[2]._id,
           serviceType: "Spark Plug Replacement",
           startDate: new Date("2024-01-27"),
           completionDate: new Date("2024-01-28"),
@@ -264,6 +273,7 @@ mongoose
         },
         {
           carId: car1._id,
+          userId: users[0]._id,
           serviceType: "Suspension Check",
           startDate: new Date("2024-01-30"),
           completionDate: new Date("2024-02-01"),
@@ -278,6 +288,7 @@ mongoose
         },
         {
           carId: car1._id,
+          userId: users[0]._id,
           serviceType: "Exhaust System Repair",
           startDate: new Date("2024-02-02"),
           completionDate: new Date("2024-02-03"),
@@ -292,6 +303,7 @@ mongoose
         },
         {
           carId: car2._id,
+          userId: users[1]._id,
           serviceType: "Fuel Injector Cleaning",
           startDate: new Date("2024-02-05"),
           completionDate: new Date("2024-02-06"),
@@ -306,6 +318,7 @@ mongoose
         },
         {
           carId: car3._id,
+          userId: users[2]._id,
           serviceType: "Timing Belt Replacement",
           startDate: new Date("2024-02-08"),
           completionDate: new Date("2024-02-09"),
@@ -320,6 +333,7 @@ mongoose
         },
         {
           carId: car1._id,
+          userId: users[0]._id,
           serviceType: "Power Steering Fluid Flush",
           startDate: new Date("2024-02-10"),
           completionDate: new Date("2024-02-11"),
@@ -334,6 +348,7 @@ mongoose
         },
         {
           carId: car2._id,
+          userId: users[1]._id,
           serviceType: "Windshield Wiper Replacement",
           startDate: new Date("2024-02-12"),
           completionDate: new Date("2024-02-13"),
@@ -348,6 +363,7 @@ mongoose
         },
         {
           carId: car3._id,
+          userId: users[2]._id,
           serviceType: "Alternator Replacement",
           startDate: new Date("2024-02-14"),
           completionDate: new Date("2024-02-15"),
@@ -362,6 +378,7 @@ mongoose
         },
         {
           carId: car1._id,
+          userId: users[0]._id,
           serviceType: "Brake Fluid Flush",
           startDate: new Date("2024-02-17"),
           completionDate: new Date("2024-02-18"),
@@ -376,6 +393,7 @@ mongoose
         },
         {
           carId: car2._id,
+          userId: users[1]._id,
           serviceType: "Timing Chain Replacement",
           startDate: new Date("2024-02-20"),
           completionDate: new Date("2024-02-21"),
@@ -390,6 +408,7 @@ mongoose
         },
         {
           carId: car3._id,
+          userId: users[2]._id,
           serviceType: "Differential Fluid Change",
           startDate: new Date("2024-02-23"),
           completionDate: new Date("2024-02-24"),
@@ -404,6 +423,7 @@ mongoose
         },
         {
           carId: car1._id,
+          userId: users[0]._id,
           serviceType: "Timing Belt Tensioner Replacement",
           startDate: new Date("2024-02-25"),
           completionDate: new Date("2024-02-26"),
@@ -418,6 +438,7 @@ mongoose
         },
         {
           carId: car2._id,
+          userId: users[1]._id,
           serviceType: "Clutch Replacement",
           startDate: new Date("2024-02-28"),
           completionDate: new Date("2024-02-29"),
@@ -432,6 +453,7 @@ mongoose
         },
         {
           carId: car3._id,
+          userId: users[2]._id,
           serviceType: "Turbocharger Replacement",
           startDate: new Date("2024-03-01"),
           completionDate: new Date("2024-03-02"),
@@ -446,6 +468,7 @@ mongoose
         },
         {
           carId: car1._id,
+          userId: users[0]._id,
           serviceType: "Wheel Bearing Replacement",
           startDate: new Date("2024-03-05"),
           completionDate: new Date("2024-03-06"),
@@ -460,6 +483,7 @@ mongoose
         },
         {
           carId: car2._id,
+          userId: users[1]._id,
           serviceType: "Fuel Pump Replacement",
           startDate: new Date("2024-03-08"),
           completionDate: new Date("2024-03-09"),
@@ -474,6 +498,7 @@ mongoose
         },
         {
           carId: car3._id,
+          userId: users[2]._id,
           serviceType: "Windshield Replacement",
           startDate: new Date("2024-03-10"),
           completionDate: new Date("2024-03-11"),
@@ -488,6 +513,7 @@ mongoose
         },
         {
           carId: car1._id,
+          userId: users[0]._id,
           serviceType: "Camshaft Replacement",
           startDate: new Date("2024-03-13"),
           completionDate: new Date("2024-03-14"),
