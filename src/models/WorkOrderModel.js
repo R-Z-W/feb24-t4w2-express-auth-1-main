@@ -6,6 +6,12 @@ const TaskSchema = new mongoose.Schema({
   description: { type: String },
 });
 
+const CommentSchema = new mongoose.Schema({
+  userId: { type: String, required: true },
+  text: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
+
 const WorkOrderSchema = new mongoose.Schema({
   carId: { type: String },
   userId: { type: String, required: true }, // Add userId field
@@ -19,6 +25,13 @@ const WorkOrderSchema = new mongoose.Schema({
   status: { type: String, default: "Pending" },
   serviceNotes: { type: String },
   warrantyOnWork: { type: String },
+  department: { 
+    type: String, 
+    required: true,
+    enum: ['Mechanical', 'Dent Repair', 'Paint Shop', 'Rim Repair', 
+           'Upholstery', 'Detailing', 'Inspection']
+  },
+  comments: [CommentSchema],
 });
 
 WorkOrderSchema.plugin(AutoIncrement, { inc_field: "workOrderId" });

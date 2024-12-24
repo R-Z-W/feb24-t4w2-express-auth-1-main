@@ -139,7 +139,8 @@ mongoose
       const workOrders = await WorkOrder.create([
         {
           carId: car1._id,
-          userId: users[0]._id, // Add userId from created user
+          userId: users[0]._id, 
+          department: "Mechanical",
           serviceType: "Oil Change",
           startDate: new Date("2024-01-05"),
           completionDate: new Date("2024-01-06"),
@@ -151,10 +152,23 @@ mongoose
           ],
           laborHours: 2,
           costOfService: 150,
+          comments: [
+            {
+              userId: users[0]._id,
+              text: "Initial inspection complete. Oil very dirty, recommending premium synthetic oil.",
+              createdAt: new Date("2024-01-05T10:00:00")
+            },
+            {
+              userId: users[1]._id,
+              text: "Approved for premium synthetic oil change.",
+              createdAt: new Date("2024-01-05T11:30:00")
+            }
+          ]
         },
         {
           carId: car2._id,
           userId: users[1]._id,
+          department: "Mechanical",
           serviceType: "Brake Inspection",
           startDate: new Date("2024-01-07"),
           completionDate: null,
@@ -170,7 +184,8 @@ mongoose
         {
           carId: car3._id,
           userId: users[2]._id,
-          serviceType: "Tire Replacement",
+          department: "Rim Repair",
+          serviceType: "Wheel Refurbishment",
           startDate: new Date("2024-01-10"),
           completionDate: new Date("2024-01-11"),
           technicianAssigned: users[2].firstName,
@@ -185,7 +200,8 @@ mongoose
         {
           carId: car1._id,
           userId: users[0]._id,
-          serviceType: "Battery Replacement",
+          department: "Paint Shop",
+          serviceType: "Full Body Paint",
           startDate: new Date("2024-01-12"),
           completionDate: null,
           technicianAssigned: users[0].firstName,
@@ -200,7 +216,8 @@ mongoose
         {
           carId: car2._id,
           userId: users[1]._id,
-          serviceType: "Transmission Check",
+          department: "Upholstery",
+          serviceType: "Seat Repair",
           startDate: new Date("2024-01-15"),
           completionDate: null,
           technicianAssigned: users[1].firstName,
@@ -215,7 +232,8 @@ mongoose
         {
           carId: car3._id,
           userId: users[2]._id,
-          serviceType: "AC Repair",
+          department: "Detailing",
+          serviceType: "Full Interior Detail",
           startDate: new Date("2024-01-20"),
           completionDate: new Date("2024-01-21"),
           technicianAssigned: users[2].firstName,
@@ -230,7 +248,8 @@ mongoose
         {
           carId: car1._id,
           userId: users[0]._id,
-          serviceType: "Coolant Flush",
+          department: "Dent Repair",
+          serviceType: "Door Dent Removal",
           startDate: new Date("2024-01-22"),
           completionDate: null,
           technicianAssigned: users[0].firstName,
@@ -245,7 +264,8 @@ mongoose
         {
           carId: car2._id,
           userId: users[1]._id,
-          serviceType: "Wheel Alignment",
+          department: "Inspection",
+          serviceType: "Pre-Purchase Inspection",
           startDate: new Date("2024-01-25"),
           completionDate: null,
           technicianAssigned: users[1].firstName,
@@ -521,12 +541,265 @@ mongoose
           technicianAssigned: users[0].firstName,
           status: "In Progress",
           tasks: [
-            { title: "Remove old camshaft" },
-            { title: "Install new camshaft" },
+            { 
+              title: "Remove old camshaft",
+              description: "Carefully disassemble valve train and extract worn camshaft"
+            },
+            { 
+              title: "Install new camshaft",
+              description: "Install new camshaft with proper timing and torque specifications"
+            }
           ],
           laborHours: 6,
           costOfService: 600,
         },
+        {
+          carId: car1._id,
+          userId: users[0]._id,
+          department: "Mechanical",
+          serviceType: "Power Steering Fluid Flush",
+          startDate: new Date("2024-02-10"),
+          completionDate: new Date("2024-02-11"),
+          technicianAssigned: users[0].firstName,
+          status: "Complete",
+          tasks: [
+            { 
+              title: "Drain old power steering fluid",
+              description: "Remove old fluid from power steering system using extraction tool"
+            },
+            { 
+              title: "Flush power steering system",
+              description: "Clean system with flush solution and refill with new fluid"
+            }
+          ],
+          laborHours: 2,
+          costOfService: 120,
+        },
+        {
+          carId: car2._id,
+          userId: users[1]._id,
+          department: "Paint Shop",
+          serviceType: "Paint Touch-Up",
+          startDate: new Date("2024-02-12"),
+          completionDate: new Date("2024-02-13"),
+          technicianAssigned: users[1].firstName,
+          status: "Complete",
+          tasks: [
+            { 
+              title: "Sand affected areas",
+              description: "Prepare surface with progressive grit sandpaper for paint adhesion"
+            },
+            { 
+              title: "Apply paint and clear coat",
+              description: "Match and apply base coat color followed by protective clear coat"
+            }
+          ],
+          laborHours: 3,
+          costOfService: 250,
+          comments: [
+            {
+              userId: users[1]._id,
+              text: "Paint color match completed. Ready for repair.",
+              createdAt: new Date("2024-02-12T09:15:00")
+            }
+          ]
+        },
+        {
+          carId: car3._id,
+          userId: users[2]._id,
+          department: "Upholstery",
+          serviceType: "Seat Repair",
+          startDate: new Date("2024-02-15"),
+          completionDate: new Date("2024-02-16"),
+          technicianAssigned: users[2].firstName,
+          status: "Complete",
+          tasks: [
+            { 
+              title: "Repair torn seat fabric",
+              description: "Patch and reinforce damaged upholstery material"
+            },
+            { 
+              title: "Replace seat padding",
+              description: "Install new foam padding to restore seat comfort and support"
+            }
+          ],
+          laborHours: 4,
+          costOfService: 300,
+        },
+        {
+          carId: car1._id,
+          userId: users[0]._id,
+          department: "Mechanical",
+          serviceType: "Power Steering Fluid Flush",
+          startDate: new Date("2024-02-10"),
+          completionDate: new Date("2024-02-11"),
+          technicianAssigned: users[0].firstName,
+          status: "Complete",
+          tasks: [
+            { title: "Drain old power steering fluid" },
+            { title: "Flush power steering system" },
+          ],
+          laborHours: 2,
+          costOfService: 120,
+        },
+        {
+          carId: car2._id,
+          userId: users[1]._id,
+          department: "Paint Shop",
+          serviceType: "Paint Touch-Up",
+          startDate: new Date("2024-02-12"),
+          completionDate: new Date("2024-02-13"),
+          technicianAssigned: users[1].firstName,
+          status: "Complete",
+          tasks: [
+            { title: "Sand affected areas" },
+            { title: "Apply paint and clear coat" },
+          ],
+          laborHours: 3,
+          costOfService: 250,
+        },
+        {
+          carId: car3._id,
+          userId: users[2]._id,
+          department: "Upholstery",
+          serviceType: "Seat Repair",
+          startDate: new Date("2024-02-15"),
+          completionDate: new Date("2024-02-16"),
+          technicianAssigned: users[2].firstName,
+          status: "Complete",
+          tasks: [
+            { title: "Repair torn seat fabric" },
+            { title: "Replace seat padding" },
+          ],
+          laborHours: 4,
+          costOfService: 300,
+        },
+        {
+          carId: car1._id,
+          userId: users[0]._id,
+          department: "Rim Repair",
+          serviceType: "Wheel Refinishing",
+          startDate: new Date("2024-02-18"),
+          completionDate: new Date("2024-02-19"),
+          technicianAssigned: users[0].firstName,
+          status: "Complete",
+          tasks: [
+            { title: "Sand and polish wheels" },
+            { title: "Apply protective coating" },
+          ],
+          laborHours: 5,
+          costOfService: 400,
+        },
+        {
+          carId: car2._id,
+          userId: users[1]._id,
+          department: "Detailing",
+          serviceType: "Full Detail",
+          startDate: new Date("2024-02-20"),
+          completionDate: new Date("2024-02-21"),
+          technicianAssigned: users[1].firstName,
+          status: "Complete",
+          tasks: [
+            { 
+              title: "Interior deep clean",
+              description: "Deep clean all interior surfaces including seats, carpets, and dashboard"
+            },
+            { 
+              title: "Exterior polish and wax",
+              description: "Machine polish paint and apply protective wax coating"
+            }
+          ],
+          laborHours: 6,
+          costOfService: 350,
+        },
+        {
+          carId: car3._id,
+          userId: users[2]._id,
+          department: "Dent Repair",
+          serviceType: "Door Dent Removal",
+          startDate: new Date("2024-02-23"),
+          completionDate: new Date("2024-02-24"),
+          technicianAssigned: users[2].firstName,
+          status: "Complete",
+          tasks: [
+            { 
+              title: "Assess dent damage",
+              description: "Evaluate dent size, location and paint condition for repair method"
+            },
+            { 
+              title: "Perform paintless dent repair",
+              description: "Use specialized tools to massage dent from behind panel"
+            }
+          ],
+          laborHours: 3,
+          costOfService: 280,
+        },
+        {
+          carId: car1._id,
+          userId: users[0]._id,
+          department: "Inspection",
+          serviceType: "Safety Inspection",
+          startDate: new Date("2024-02-25"),
+          completionDate: new Date("2024-02-26"),
+          technicianAssigned: users[0].firstName,
+          status: "Complete",
+          tasks: [
+            { 
+              title: "Check safety systems",
+              description: "Inspect brakes, steering, suspension and lighting systems"
+            },
+            { 
+              title: "Perform emissions test",
+              description: "Test exhaust emissions against environmental standards"
+            }
+          ],
+          laborHours: 2,
+          costOfService: 150,
+        },
+        {
+          carId: car2._id,
+          userId: users[1]._id,
+          department: "Mechanical",
+          serviceType: "Fuel Injector Cleaning",
+          startDate: new Date("2024-02-05"),
+          completionDate: new Date("2024-02-06"),
+          technicianAssigned: users[1].firstName,
+          status: "Complete",
+          tasks: [
+            { 
+              title: "Clean fuel injectors",
+              description: "Use specialized cleaning solution to remove deposits from injectors"
+            },
+            { 
+              title: "Check fuel pressure",
+              description: "Verify fuel system pressure meets manufacturer specifications"
+            }
+          ],
+          laborHours: 3,
+          costOfService: 180,
+        },
+        {
+          carId: car3._id,
+          userId: users[2]._id,
+          department: "Mechanical",
+          serviceType: "Timing Belt Replacement",
+          startDate: new Date("2024-02-08"),
+          completionDate: new Date("2024-02-09"),
+          technicianAssigned: users[2].firstName,
+          status: "Complete",
+          tasks: [
+            { 
+              title: "Remove old timing belt",
+              description: "Remove covers and auxiliary components to access timing belt"
+            },
+            { 
+              title: "Install new timing belt",
+              description: "Install new belt ensuring correct timing marks alignment"
+            }
+          ],
+          laborHours: 5,
+          costOfService: 500,
+        }
       ]);
 
       console.log(`Successfully seeded ${workOrders.length} work orders`);

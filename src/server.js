@@ -235,4 +235,51 @@ app.delete("/api/workorders/:id", validateUserAuth, async (req, res) => {
   }
 });
 
+// Comment Route for Work Order
+app.post("/api/workorders/:id/comments", validateUserAuth, async (req, res) => {
+  try {
+    const workOrder = await WorkOrder.findById(req.params.id);
+    if (!workOrder) return res.status(404).json({ message: "Work order not found" });
+    
+    workOrder.comments.push({
+      userId: req.body.userId,
+      text: req.body.text
+    });
+    
+    await workOrder.save();
+    res.status(201).json(workOrder);
+  } catch (err) {
+    res.status(400).json({ message: "Error adding comment" });
+  }
+});
+
+app.delete("/api/workorders/:workOrderId/comments/:commentId", validateUserAuth, async (req, res) => {
+  try {
+    const workOrder = await WorkOrder.findById(req.params.workOrderId);
+    if (!workOrder) return res.status(404).json({ message: "Work order not found" });
+    
+    workOrder.comments.id(req.params.commentId).remove();
+    await workOrder.save();
+    
+    res.json({ message: "Comment deleted successfully" });
+  } catch (err) {
+    res.status(400).json({ message: "Error deleting comment" });
+  }
+});
+
+app.put("/api/workorders/:workOrderId/comments/:commentId", validateUserAuth, async (req, res) => {
+  try {
+    const workOrder = await WorkOrder.findById(req.params.workOrderId);
+    if (!workOrder) return res.status(404).json({ message: "Work order not found" });
+    
+    const comment = workOrder.comments.id(req.params.commentId);
+    comment.text = req.body.text;
+    
+    await workOrder.save();
+    res.json(workOrder);
+  } catch (err) {
+    res.status(400).json({ message: "Error updating comment" });
+  }
+});
+
 module.exports = { app };
