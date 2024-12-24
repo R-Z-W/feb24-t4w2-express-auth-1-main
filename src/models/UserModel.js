@@ -1,8 +1,14 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const { v4: uuidv4 } = require('uuid');
 
 const UserSchema = new mongoose.Schema({
-  userId: { type: String, required: true, unique: true },
+  userId: { 
+    type: String, 
+    default: () => uuidv4(),
+    unique: true,
+    required: true 
+  },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   jobTitle: { type: String, required: true },
@@ -18,6 +24,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   username: { type: String, required: true, unique: true },
 });
+
 
 // Hash the password before saving it
 // .methods is allows for operations on individual documents

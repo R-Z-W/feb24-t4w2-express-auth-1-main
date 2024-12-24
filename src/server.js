@@ -19,7 +19,7 @@ let corsOptions = {
 app.use(cors(corsOptions));
 
 // Server Health Check Route
-app.get("/api/health", (req, res) => {
+app.get("/api/health", (req, res) => { //accessed with backendurl/api/health
 	res.status(200).json({ message: "Backend is working!" });
 });
 

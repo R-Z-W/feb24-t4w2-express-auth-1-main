@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 const TaskSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -19,7 +20,10 @@ const WorkOrderSchema = new mongoose.Schema({
   warrantyOnWork: { type: String },
 });
 
+// AutoIncrement workOrderId
+WorkOrderSchema.plugin(AutoIncrement, { inc_field: "workOrderId" });
+
 const WorkOrder = mongoose.model("WorkOrder", WorkOrderSchema);
-module.exports = { WorkOrder};
+module.exports = { WorkOrder };
 
 

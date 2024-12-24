@@ -18,7 +18,6 @@ mongoose
 
       // Seed Cars
       const car1 = await Car.create({
-        carId: "1",
         make: "Toyota",
         model: "Corolla",
         year: 2020,
@@ -39,7 +38,6 @@ mongoose
       });
 
       const car2 = await Car.create({
-        carId: "2",
         make: "Honda",
         model: "Civic",
         year: 2019,
@@ -61,7 +59,6 @@ mongoose
       });
 
       const car3 = await Car.create({
-        carId: "3",
         make: "Ford",
         model: "Focus",
         year: 2021,
@@ -86,7 +83,6 @@ mongoose
       // Seed Users
       const users = await User.create([
         {
-          userId: "1",
           firstName: "John",
           lastName: "Doe",
           jobTitle: "Technician",
@@ -103,7 +99,6 @@ mongoose
           username: "johndoe",
         },
         {
-          userId: "2",
           firstName: "Jane",
           lastName: "Smith",
           jobTitle: "Supervisor",
@@ -120,7 +115,6 @@ mongoose
           username: "janesmith",
         },
         {
-          userId: "3",
           firstName: "Alice",
           lastName: "Johnson",
           jobTitle: "Sales Associate",
