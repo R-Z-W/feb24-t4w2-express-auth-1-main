@@ -23,8 +23,8 @@ const UserSchema = new mongoose.Schema({
   employmentStatus: { type: String, required: true },
   password: { type: String, required: true },
   username: { type: String, required: true, unique: true },
+  isAdmin: { type: Boolean, default: false }
 });
-
 
 // Hash the password before saving it
 // .methods is allows for operations on individual documents

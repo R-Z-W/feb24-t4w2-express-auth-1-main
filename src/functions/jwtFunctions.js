@@ -2,16 +2,16 @@ const jwt = require("jsonwebtoken");
 
 let jwtSecretKey = process.env.JWT_SECRET_KEY;
 
-function generateJWT(userId, username, roles = null) {
+function generateJWT(userId, username, isAdmin = false) {
 	return jwt.sign(
 		{
 			userId: userId,
 			username: username,
-			roles: roles
+			isAdmin: isAdmin
 		},
 		jwtSecretKey,
 		{
-			expiresIn: "7d"
+			expiresIn: "1d"
 		}
 	);
 }
@@ -46,4 +46,24 @@ async function validateUserAuth(request, response, next) {
 	}
 }
 
-module.exports = { generateJWT, decodeJWT, validateUserAuth };
+// Admin Privileges
+async function validateAdminAuth(request, response, next) {
+  const token = request.headers['authorization']?.split(' ')[1];
+
+  if (!token) {
+    return response.status(403).json({ message: "Authentication required" });
+  }
+
+  try {
+    const decodedData = decodeJWT(token);
+    if (decodedData.isAdmin) {
+      next();
+    } else {
+      return response.status(403).json({ message: "Admin access required" });
+    }
+  } catch (err) {
+    return response.status(403).json({ message: "Invalid token" });
+  }
+}
+
+module.exports = { generateJWT, decodeJWT, validateUserAuth, validateAdminAuth };

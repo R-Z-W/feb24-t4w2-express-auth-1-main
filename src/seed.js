@@ -96,7 +96,8 @@ mongoose
           address: "123 Main St, City, State, ZIP",
           employmentStatus: "Active",
           password: "password123",
-          username: "johndoe",
+          username: "admin",
+          isAdmin: true  // Admin user
         },
         {
           firstName: "Jane",
@@ -173,7 +174,7 @@ mongoose
           startDate: new Date("2024-01-10"),
           completionDate: new Date("2024-01-11"),
           technicianAssigned: users[2].firstName,
-          status: "Complete",
+          status: "In Progress",
           tasks: [
             { title: "Remove old tires" },
             { title: "Install new tires" },
@@ -428,7 +429,7 @@ mongoose
           startDate: new Date("2024-02-25"),
           completionDate: new Date("2024-02-26"),
           technicianAssigned: users[0].firstName,
-          status: "Complete",
+          status: "In Progress",
           tasks: [
             { title: "Remove old tensioner" },
             { title: "Install new tensioner" },
@@ -488,7 +489,7 @@ mongoose
           startDate: new Date("2024-03-08"),
           completionDate: new Date("2024-03-09"),
           technicianAssigned: users[1].firstName,
-          status: "Complete",
+          status: "In Progress",
           tasks: [
             { title: "Remove old fuel pump" },
             { title: "Install new fuel pump" },
@@ -503,7 +504,7 @@ mongoose
           startDate: new Date("2024-03-10"),
           completionDate: new Date("2024-03-11"),
           technicianAssigned: users[2].firstName,
-          status: "Complete",
+          status: "In Progress",
           tasks: [
             { title: "Remove old windshield" },
             { title: "Install new windshield" },
@@ -518,7 +519,7 @@ mongoose
           startDate: new Date("2024-03-13"),
           completionDate: new Date("2024-03-14"),
           technicianAssigned: users[0].firstName,
-          status: "Complete",
+          status: "In Progress",
           tasks: [
             { title: "Remove old camshaft" },
             { title: "Install new camshaft" },

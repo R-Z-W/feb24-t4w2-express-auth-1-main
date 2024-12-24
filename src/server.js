@@ -1,7 +1,7 @@
 const express = require("express");
 const { User } = require("./models/UserModel");
 const { WorkOrder } = require("./models/WorkOrderModel");
-const { generateJWT, validateUserAuth } = require("./functions/jwtFunctions");
+const { generateJWT, validateUserAuth, validateAdminAuth } = require("./functions/jwtFunctions");
 const cors = require("cors");
 const bcrypt = require('bcryptjs');
 const app = express();
@@ -56,8 +56,6 @@ app.post("/signup", async (req, res) => {
 });
 
 
-
-  
 // Login Route
 app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
@@ -87,22 +85,129 @@ app.post("/api/login", async (req, res) => {
 });
 
 
+// User Routes
+app.get("/api/users", validateAdminAuth, async (req, res) => {
+  try {
+    const users = await User.find().select('-password'); // Exclude password
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching users" });
+  }
+});
 
+app.get("/api/users/:id", validateAdminAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password');
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching user" });
+  }
+});
+
+app.put("/api/users/:id", validateAdminAuth, async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    ).select('-password');
+    if (!updatedUser) return res.status(404).json({ message: "User not found" });
+    res.json(updatedUser);
+  } catch (err) {
+    res.status(400).json({ message: "Error updating user" });
+  }
+});
+
+app.delete("/api/users/:id", validateAdminAuth, async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    if (!deletedUser) return res.status(404).json({ message: "User not found" });
+    res.json({ message: "User deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Error deleting user" });
+  }
+});
+
+// Car Routes
+app.get("/api/cars", validateUserAuth, async (req, res) => {
+  try {
+    const cars = await Car.find();
+    res.json(cars);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching cars" });
+  }
+});
+
+app.get("/api/cars/:id", validateUserAuth, async (req, res) => {
+  try {
+    const car = await Car.findById(req.params.id);
+    if (!car) return res.status(404).json({ message: "Car not found" });
+    res.json(car);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching car" });
+  }
+});
+
+app.post("/api/cars", validateUserAuth, async (req, res) => {
+  try {
+    const newCar = await Car.create(req.body);
+    res.status(201).json(newCar);
+  } catch (err) {
+    res.status(400).json({ message: "Error creating car" });
+  }
+});
+
+app.put("/api/cars/:id", validateUserAuth, async (req, res) => {
+  try {
+    const updatedCar = await Car.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!updatedCar) return res.status(404).json({ message: "Car not found" });
+    res.json(updatedCar);
+  } catch (err) {
+    res.status(400).json({ message: "Error updating car" });
+  }
+});
+
+app.delete("/api/cars/:id", validateUserAuth, async (req, res) => {
+  try {
+    const deletedCar = await Car.findByIdAndDelete(req.params.id);
+    if (!deletedCar) return res.status(404).json({ message: "Car not found" });
+    res.json({ message: "Car deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Error deleting car" });
+  }
+});
 
 // Work Order Routes
 app.get("/api/workorders", validateUserAuth, async (req, res) => {
-  const workOrders = await WorkOrder.find();
-  res.json(workOrders);
+  try {
+    const workOrders = await WorkOrder.find();
+    res.json(workOrders);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching work orders" });
+  }
+});
+
+app.get("/api/workorders/:id", validateUserAuth, async (req, res) => {
+  try {
+    const workOrder = await WorkOrder.findById(req.params.id);
+    if (!workOrder) return res.status(404).json({ message: "Work order not found" });
+    res.json(workOrder);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching work order" });
+  }
 });
 
 app.post("/api/workorders", validateUserAuth, async (req, res) => {
-  const workOrder = new WorkOrder(req.body);
   try {
-    const newWorkOrder = await workOrder.save();
+    const newWorkOrder = await WorkOrder.create(req.body);
     res.status(201).json(newWorkOrder);
   } catch (err) {
-    console.error(err); // Log the error
-    res.status(400).json({ message: "Error creating work order." });
+    res.status(400).json({ message: "Error creating work order" });
   }
 });
 
@@ -113,20 +218,20 @@ app.put("/api/workorders/:id", validateUserAuth, async (req, res) => {
       req.body,
       { new: true }
     );
+    if (!updatedWorkOrder) return res.status(404).json({ message: "Work order not found" });
     res.json(updatedWorkOrder);
   } catch (err) {
-    console.error(err); // Log the error
-    res.status(400).json({ message: "Error updating work order." });
+    res.status(400).json({ message: "Error updating work order" });
   }
 });
 
 app.delete("/api/workorders/:id", validateUserAuth, async (req, res) => {
   try {
-    await WorkOrder.findByIdAndDelete(req.params.id);
-    res.json({ message: "Work Order deleted" });
+    const deletedWorkOrder = await WorkOrder.findByIdAndDelete(req.params.id);
+    if (!deletedWorkOrder) return res.status(404).json({ message: "Work order not found" });
+    res.json({ message: "Work order deleted successfully" });
   } catch (err) {
-    console.error(err); // Log the error
-    res.status(500).json({ message: "Error deleting work order." });
+    res.status(500).json({ message: "Error deleting work order" });
   }
 });
 
