@@ -148,7 +148,7 @@ mongoose
           startDate: new Date("2024-01-05"),
           completionDate: new Date("2024-01-06"),
           technicianAssigned: users[0].firstName,
-          status: "Complete",
+          status: "Pending",
           tasks: [
             { title: "Drain old oil", description: "Drained oil using vacuum pump." },
             { title: "Replace oil filter", description: "Using OEM filter." },
@@ -274,7 +274,7 @@ mongoose
           startDate: new Date("2024-01-30"),
           completionDate: new Date("2024-02-01"),
           technicianAssigned: users[0].firstName,
-          status: "Complete",
+          status: "Pending",
           tasks: [
             { title: "Inspect shock absorbers" },
             { title: "Test suspension system" },
@@ -330,7 +330,7 @@ mongoose
           startDate: new Date("2024-02-10"),
           completionDate: new Date("2024-02-11"),
           technicianAssigned: users[0].firstName,
-          status: "Complete",
+          status: "Pending",
           tasks: [
             { title: "Drain old fluid" },
             { title: "Refill with new fluid" },
@@ -344,7 +344,7 @@ mongoose
           startDate: new Date("2024-02-12"),
           completionDate: new Date("2024-02-13"),
           technicianAssigned: users[1].firstName,
-          status: "Complete",
+          status: "Pending",
           tasks: [
             { title: "Remove old wiper blades" },
             { title: "Install new wiper blades" },
@@ -358,7 +358,7 @@ mongoose
           startDate: new Date("2024-02-14"),
           completionDate: new Date("2024-02-15"),
           technicianAssigned: users[2].firstName,
-          status: "Complete",
+          status: "Pending",
           tasks: [
             { title: "Remove old alternator" },
             { title: "Install new alternator" },
@@ -428,7 +428,7 @@ mongoose
           startDate: new Date("2024-02-28"),
           completionDate: new Date("2024-02-29"),
           technicianAssigned: users[1].firstName,
-          status: "Complete",
+          status: "Pending",
           tasks: [
             { title: "Remove old clutch" },
             { title: "Install new clutch" },
@@ -442,7 +442,7 @@ mongoose
           startDate: new Date("2024-03-01"),
           completionDate: new Date("2024-03-02"),
           technicianAssigned: users[2].firstName,
-          status: "Complete",
+          status: "Pending",
           tasks: [
             { title: "Remove old turbocharger" },
             { title: "Install new turbocharger" },
@@ -456,7 +456,7 @@ mongoose
           startDate: new Date("2024-03-05"),
           completionDate: new Date("2024-03-06"),
           technicianAssigned: users[0].firstName,
-          status: "Complete",
+          status: "Pending",
           tasks: [
             { title: "Remove old wheel bearings" },
             { title: "Install new wheel bearings" },
