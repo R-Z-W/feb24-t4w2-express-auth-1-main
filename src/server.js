@@ -204,10 +204,16 @@ app.get("/api/workorders/:id", validateUserAuth, async (req, res) => {
 
 app.post("/api/workorders", validateUserAuth, async (req, res) => {
   try {
+    console.log('Creating work order:', req.body);
     const newWorkOrder = await WorkOrder.create(req.body);
+    console.log('Created work order:', newWorkOrder);
     res.status(201).json(newWorkOrder);
   } catch (err) {
-    res.status(400).json({ message: "Error creating work order" });
+    console.error('Work order creation error:', err);
+    res.status(400).json({ 
+      message: "Error creating work order",
+      error: err.message 
+    });
   }
 });
 
