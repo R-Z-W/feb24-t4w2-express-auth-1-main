@@ -1,6 +1,7 @@
 const express = require("express");
 const { User } = require("./models/UserModel");
 const { WorkOrder } = require("./models/WorkOrderModel");
+const { Car } = require("./models/CarModel");
 const { generateJWT, validateUserAuth, validateAdminAuth } = require("./functions/jwtFunctions");
 const cors = require("cors");
 const bcrypt = require('bcryptjs');
@@ -141,25 +142,15 @@ app.get("/api/cars", validateUserAuth, async (req, res) => {
 
 app.get("/api/cars/:id", validateUserAuth, async (req, res) => {
   try {
-    let car;
-    // Try finding by MongoDB _id first
-    car = await Car.findById(req.params.id);
-    
-    // If not found, try finding by carId
-    if (!car) {
-      car = await Car.findOne({ carId: parseInt(req.params.id) });
-    }
-
+    const car = await Car.findById(req.params.id);
     if (!car) {
       console.log('Car not found:', req.params.id);
       return res.status(404).json({ message: "Car not found" });
     }
-    
-    console.log('Car found:', car);
     res.json(car);
   } catch (err) {
     console.error('Error in /api/cars/:id:', err);
-    res.status(500).json({ message: "Error fetching car" });
+    res.status(500).json({ message: "Error fetching car", error: err.message });
   }
 });
 
