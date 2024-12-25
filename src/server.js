@@ -59,30 +59,25 @@ app.post("/signup", async (req, res) => {
 
 // Login Route
 app.post("/api/login", async (req, res) => {
-  const { username, password } = req.body;
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
 
-  if (!username || !password) {
-      return res.status(400).json({
-          message: "Missing login credentials.",
-      });
+    const token = generateJWT(user._id, user.username, user.isAdmin);
+    console.log('Generated token for user:', {
+      username: user.username,
+      isAdmin: user.isAdmin
+    });
+    
+    res.json({ token });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ message: "Login failed" });
   }
-
-  // Find user by username
-  let user = await User.findOne({ username });
-  if (!user) {
-      return res.status(401).json({ message: "User not found." });
-  }
-
-  // Check if the password matches the hashed password
-  const isPasswordValid = await bcrypt.compare(password, user.password); // Use bcrypt.compare() to compare hashes
-  console.log("Password match:", isPasswordValid);  // Debugging line
-  if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid password." });
-  }
-  
-  // Generate JWT
-  const token = generateJWT(user._id, user.username);
-  res.json({ token });
 });
 
 

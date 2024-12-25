@@ -7,7 +7,7 @@ function generateJWT(userId, username, isAdmin = false) {
 		{
 			userId: userId,
 			username: username,
-			isAdmin: isAdmin
+			isAdmin: Boolean(isAdmin) 
 		},
 		jwtSecretKey,
 		{
