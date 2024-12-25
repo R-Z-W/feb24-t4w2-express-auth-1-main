@@ -29,9 +29,9 @@ const WorkOrderSchema = new mongoose.Schema({
     type: String, 
     required: true,
     enum: ['Mechanical', 'Dent Repair', 'Paint Shop', 'Rim Repair', 
-           'Upholstery', 'Detailing', 'Inspection']
+           'Upholstery', 'Detailing', 'Inspection'] // Restrict to these values
   },
-  comments: [CommentSchema],
+  comments: [CommentSchema], // Add comments field
 });
 
 WorkOrderSchema.plugin(AutoIncrement, { inc_field: "workOrderId" });
