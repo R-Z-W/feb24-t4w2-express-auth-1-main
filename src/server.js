@@ -100,8 +100,10 @@ app.get("/api/users/:id", validateAdminAuth, async (req, res) => {
     res.status(500).json({ message: "Error fetching user" });
   }
 });
+
 app.post("/api/users", validateAdminAuth, async (req, res) => {
   try {
+    // Validate required fields
     const requiredFields = [
       'firstName', 'lastName', 'username', 'password',
       'email', 'phoneNumber', 'jobTitle', 'department',
@@ -122,19 +124,18 @@ app.post("/api/users", validateAdminAuth, async (req, res) => {
       password: await bcrypt.hash(req.body.password, 10)
     };
 
-    console.log('Creating user:', userData);
     const newUser = await User.create(userData);
     
     // Remove password from response
     const userResponse = newUser.toObject();
     delete userResponse.password;
-
+    
     res.status(201).json(userResponse);
   } catch (err) {
     console.error('User creation error:', err);
-    res.status(400).json({ 
+    res.status(400).json({
       message: "Error creating user",
-      error: err.message 
+      error: err.message
     });
   }
 });
