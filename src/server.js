@@ -151,10 +151,16 @@ app.get("/api/cars/:id", validateUserAuth, async (req, res) => {
 
 app.post("/api/cars", validateUserAuth, async (req, res) => {
   try {
+    console.log('Creating car:', req.body);
     const newCar = await Car.create(req.body);
+    console.log('Created car:', newCar);
     res.status(201).json(newCar);
   } catch (err) {
-    res.status(400).json({ message: "Error creating car" });
+    console.error('Car creation error:', err);
+    res.status(400).json({ 
+      message: "Error creating car",
+      error: err.message 
+    });
   }
 });
 
