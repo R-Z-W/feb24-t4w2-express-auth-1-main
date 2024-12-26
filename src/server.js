@@ -101,6 +101,23 @@ app.get("/api/users/:id", validateAdminAuth, async (req, res) => {
   }
 });
 
+app.post("/api/users", validateAdminAuth, async (req, res) => {
+  try {
+    console.log('Creating user:', req.body);
+    const newUser = await User.create({
+      ...req.body,
+      password: await bcrypt.hash(req.body.password, 10)
+    });
+    res.status(201).json(newUser);
+  } catch (err) {
+    console.error('User creation error:', err);
+    res.status(400).json({ 
+      message: "Error creating user",
+      error: err.message 
+    });
+  }
+});
+
 app.put("/api/users/:id", validateAdminAuth, async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(
