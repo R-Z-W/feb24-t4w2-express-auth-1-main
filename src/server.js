@@ -100,15 +100,36 @@ app.get("/api/users/:id", validateAdminAuth, async (req, res) => {
     res.status(500).json({ message: "Error fetching user" });
   }
 });
-
 app.post("/api/users", validateAdminAuth, async (req, res) => {
   try {
-    console.log('Creating user:', req.body);
-    const newUser = await User.create({
+    const requiredFields = [
+      'firstName', 'lastName', 'username', 'password',
+      'email', 'phoneNumber', 'jobTitle', 'department',
+      'dateOfBirth', 'gender', 'address', 'salary'
+    ];
+
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+    if (missingFields.length > 0) {
+      return res.status(400).json({
+        message: `Missing required fields: ${missingFields.join(', ')}`
+      });
+    }
+
+    const userData = {
       ...req.body,
+      dateOfBirth: new Date(req.body.dateOfBirth),
+      hireDate: new Date(),
       password: await bcrypt.hash(req.body.password, 10)
-    });
-    res.status(201).json(newUser);
+    };
+
+    console.log('Creating user:', userData);
+    const newUser = await User.create(userData);
+    
+    // Remove password from response
+    const userResponse = newUser.toObject();
+    delete userResponse.password;
+
+    res.status(201).json(userResponse);
   } catch (err) {
     console.error('User creation error:', err);
     res.status(400).json({ 
