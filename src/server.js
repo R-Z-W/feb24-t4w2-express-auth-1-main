@@ -14,7 +14,7 @@ let corsOptions = {
 	origin: [
 		"http://localhost:3000", 
 		"http://127.0.0.1:5173", 
-		"https://lineopstest.netlify.app/src/main.jsx"], // Replace with domain
+		"https://lineopstest.netlify.app/"], // Replace with domain
 	optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
