@@ -3,6 +3,7 @@ const { User } = require("./models/UserModel");
 const { WorkOrder } = require("./models/WorkOrderModel");
 const { Car } = require("./models/CarModel");
 const { generateJWT, validateUserAuth, validateAdminAuth } = require("./functions/jwtFunctions");
+const dotenv = require("dotenv");
 const cors = require("cors");
 const bcrypt = require('bcryptjs');
 const app = express();
@@ -14,7 +15,7 @@ let corsOptions = {
 	origin: [
 		"http://localhost:3000", 
 		"http://127.0.0.1:5173", 
-		"https://lineopstest.netlify.app/"], // Replace with domain
+		process.env.FRONT_URL], // Replace with domain
 	optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
